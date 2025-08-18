@@ -1,6 +1,6 @@
 --[[
-    Script: Tigro's Hub (Modificado con ejecutor de scripts)
-    Descripción: Un GUI con Salto Infinito y un botón para ejecutar otros scripts.
+    Script: Tigro's Hub (Corregido)
+    Descripción: Un GUI con No-Clip y un botón para ejecutar otros scripts.
 ]]
 
 -- Obtener el jugador local
@@ -12,9 +12,9 @@ ScreenGui.Name = "TigrosHub"
 ScreenGui.Parent = player:WaitForChild("PlayerGui")
 ScreenGui.ResetOnSpawn = false
 
--- Frame principal que sirve como ventana (lo hice un poco más alto para el nuevo botón)
+-- Frame principal que sirve como ventana
 local MainFrame = Instance.new("Frame")
-MainFrame.Size = UDim2.new(0, 300, 0, 200) -- Aumenté la altura de 150 a 200
+MainFrame.Size = UDim2.new(0, 300, 0, 150) -- Reajustado para dos botones
 MainFrame.Position = UDim2.new(0.5, -150, 0.2, 0)
 MainFrame.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
 MainFrame.BorderSizePixel = 0
@@ -48,23 +48,22 @@ CloseButton.BackgroundColor3 = Color3.fromRGB(150, 0, 0)
 CloseButton.TextColor3 = Color3.new(1, 1, 1)
 CloseButton.Parent = TopBar
 
--- Botón Salto Infinito
-local InfJumpButton = Instance.new("TextButton")
-InfJumpButton.Size = UDim2.new(0, 280, 0, 40)
-InfJumpButton.Position = UDim2.new(0.5, -140, 0, 40)
-InfJumpButton.Text = "Salto Infinito: OFF"
-InfJumpButton.Font = Enum.Font.SourceSans
-InfJumpButton.TextSize = 18
-InfJumpButton.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
-InfJumpButton.TextColor3 = Color3.new(1, 1, 1)
-InfJumpButton.Parent = MainFrame
+-- [[ BOTÓN NO-CLIP ]] --
+local NoClipButton = Instance.new("TextButton")
+NoClipButton.Size = UDim2.new(0, 280, 0, 40)
+NoClipButton.Position = UDim2.new(0.5, -140, 0, 40) -- Posición del primer botón
+NoClipButton.Text = "No-Clip: OFF"
+NoClipButton.Font = Enum.Font.SourceSans
+NoClipButton.TextSize = 18
+NoClipButton.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+NoClipButton.TextColor3 = Color3.new(1, 1, 1)
+NoClipButton.Parent = MainFrame
 
--- [[ BOTÓN MODIFICADO ]] --
--- Este botón ahora ejecutará un script externo
+-- [[ BOTÓN EJECUTAR SCRIPT EXTERNO ]] --
 local ExternalScriptButton = Instance.new("TextButton")
 ExternalScriptButton.Size = UDim2.new(0, 280, 0, 40)
-ExternalScriptButton.Position = UDim2.new(0.5, -140, 0, 90) -- Misma posición que el anterior
-ExternalScriptButton.Text = "Ejecutar Script Externo" -- Texto más claro
+ExternalScriptButton.Position = UDim2.new(0.5, -140, 0, 90) -- Posición del segundo botón
+ExternalScriptButton.Text = "Ejecutar Script Externo"
 ExternalScriptButton.Font = Enum.Font.SourceSans
 ExternalScriptButton.TextSize = 18
 ExternalScriptButton.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
@@ -73,6 +72,11 @@ ExternalScriptButton.Parent = MainFrame
 
 -- Variables y servicios
 local UserInputService = game:GetService("UserInputService")
+local RunService = game:GetService("RunService")
+
+-- Variables de control para las funciones
+local noClipEnabled = false
+local noClipConnection = nil -- Variable para la conexión del No-Clip
 
 -- Función para que la ventana se pueda arrastrar
 local dragging = false
@@ -82,43 +86,52 @@ TopBar.InputBegan:Connect(function(input) if input.UserInputType == Enum.UserInp
 TopBar.InputEnded:Connect(function(input) if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then dragging = false end end)
 UserInputService.InputChanged:Connect(function(input) if dragging and (input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch) then local delta = input.Position - dragStart; MainFrame.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y) end end)
 
+-- [[ LÓGICA DEL BOTÓN NO-CLIP ]] --
+NoClipButton.MouseButton1Click:Connect(function()
+    noClipEnabled = not noClipEnabled
+    NoClipButton.Text = noClipEnabled and "No-Clip: ON" or "No-Clip: OFF"
+    NoClipButton.BackgroundColor3 = noClipEnabled and Color3.fromRGB(0, 150, 0) or Color3.fromRGB(60, 60, 60)
 
--- Lógica del Botón Salto Infinito
-local infJumpEnabled = false
-InfJumpButton.MouseButton1Click:Connect(function()
-    infJumpEnabled = not infJumpEnabled
-    InfJumpButton.Text = infJumpEnabled and "Salto Infinito: ON" or "Salto Infinito: OFF"
-    InfJumpButton.BackgroundColor3 = infJumpEnabled and Color3.fromRGB(0, 150, 0) or Color3.fromRGB(60, 60, 60)
+    if noClipEnabled then
+        noClipConnection = RunService.Stepped:Connect(function()
+            local char = player.Character
+            if char then
+                for _, part in ipairs(char:GetDescendants()) do
+                    if part:IsA("BasePart") and part.CanCollide then
+                        part.CanCollide = false
+                    end
+                end
+            end
+        end)
+    else
+        if noClipConnection then
+            noClipConnection:Disconnect()
+            noClipConnection = nil
+        end
+    end
 end)
-UserInputService.JumpRequest:Connect(function() if infJumpEnabled then local char = player.Character or player.CharacterAdded:Wait(); local humanoid = char:FindFirstChildOfClass("Humanoid"); if humanoid then humanoid:ChangeState(Enum.HumanoidStateType.Jumping) end end end)
 
-
--- [[ LÓGICA DEL BOTÓN MODIFICADO ]] --
+-- [[ LÓGICA DEL BOTÓN EJECUTAR SCRIPT EXTERNO ]] --
 ExternalScriptButton.MouseButton1Click:Connect(function()
     -- !!! IMPORTANTE: REEMPLAZA ESTA URL CON EL ENLACE RAW DEL SCRIPT QUE QUIERES EJECUTAR !!!
     local scriptUrl = "https://raw.githubusercontent.com/tienkhanh1/spicy/main/Chilli.lua"
 
     ExternalScriptButton.Text = "Cargando..."
-    ExternalScriptButton.BackgroundColor3 = Color3.fromRGB(200, 150, 0) -- Color amarillo mientras carga
+    ExternalScriptButton.BackgroundColor3 = Color3.fromRGB(200, 150, 0)
 
-    -- Usamos pcall para ejecutar el código de forma segura.
-    -- Si el enlace está mal o hay un error, no romperá todo tu script.
     local success, result = pcall(function()
-        loadstring(game:HttpGet("https://raw.githubusercontent.com/tienkhanh1/spicy/main/Chilli.lua"))()
+        loadstring(game:HttpGet(scriptUrl))()
     end)
 
     if success then
-        -- Si todo salió bien
         ExternalScriptButton.Text = "Script Ejecutado!"
-        ExternalScriptButton.BackgroundColor3 = Color3.fromRGB(0, 150, 0) -- Verde
+        ExternalScriptButton.BackgroundColor3 = Color3.fromRGB(0, 150, 0)
     else
-        -- Si hubo un error (ej. mal enlace, no hay internet)
         ExternalScriptButton.Text = "Error al Cargar"
-        ExternalScriptButton.BackgroundColor3 = Color3.fromRGB(200, 0, 0) -- Rojo
-        warn("Error al ejecutar el script externo: " .. tostring(result)) -- Muestra el error en la consola
+        ExternalScriptButton.BackgroundColor3 = Color3.fromRGB(200, 0, 0)
+        warn("Error al ejecutar el script externo: " .. tostring(result))
     end
 end)
-
 
 -- Lógica del Botón para cerrar
 CloseButton.MouseButton1Click:Connect(function()
