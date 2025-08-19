@@ -102,7 +102,7 @@ local NoClipFrame = Instance.new("Frame"); NoClipFrame.Size = UDim2.new(0, 220, 
 local NC_Corner = Instance.new("UICorner", NoClipFrame); NC_Corner.CornerRadius = UDim.new(0, 8)
 local NC_Stroke = Instance.new("UIStroke", NoClipFrame); NC_Stroke.Color = Config.ColorPrincipal; NC_Stroke.Thickness = 1
 local NC_Header = Instance.new("Frame", NoClipFrame); NC_Header.Size = UDim2.new(1, 0, 0, 30); NC_Header.BackgroundColor3 = Color3.fromRGB(40, 42, 48); local NC_HCorner = Instance.new("UICorner", NC_Header); NC_HCorner.CornerRadius = UDim.new(0, 8)
-local NC_Title = Instance.new("TextLabel", NC_Header); NC_Title.Size = UDim2.new(1, 0, 1, 0); NC_Title.Text = "No-Clip"; NC_Title.Font = Enum.Font.Code; NC_Title.TextSize = 16; NC_Title.TextColor3 = Color3.new(1,1,1); NC_Title.BackgroundTransparency = 1
+local NC_Title = Instance.new("TextLabel", NC_Header); NC_Title.Size = UDim2.new(1, 0, 1, 0); NC_Title.Text = "NO-CLIP"; NC_Title.Font = Enum.Font.Code; NC_Title.TextSize = 16; NC_Title.TextColor3 = Color3.new(1,1,1); NC_Title.BackgroundTransparency = 1
 local NC_Close = Instance.new("TextButton", NC_Header); NC_Close.Size = UDim2.new(0, 20, 0, 20); NC_Close.Position = UDim2.new(1, -25, 0.5, -10); NC_Close.Text = "X"; NC_Close.Font = Enum.Font.SourceSansBold; NC_Close.TextColor3 = Color3.new(1,1,1); NC_Close.BackgroundColor3 = Color3.fromRGB(200, 50, 50); local NC_CCorner = Instance.new("UICorner", NC_Close); NC_CCorner.CornerRadius = UDim.new(1,0)
 hacerArrastrable(NoClipFrame, NC_Header) -- Aplicamos la función corregida
 NC_Close.MouseButton1Click:Connect(function() NoClipFrame.Visible = false end)
@@ -130,9 +130,9 @@ end
 
 -- LÓGICA NO-CLIP
 local noClipConnection = nil
-crearInterruptor(NoClipFrame, "No-Clip", function(activado)
-    if activado then notify("No-Clip: ACTIVADO"); noClipConnection = RunService.Stepped:Connect(function() if player.Character then for _, part in ipairs(player.Character:GetDescendants()) do if part:IsA("BasePart") and part.CanCollide then part.CanCollide = false end end end end)
-    else notify("No-Clip: DESACTIVADO"); if noClipConnection then noClipConnection:Disconnect(); noClipConnection = nil end end
+crearInterruptor(NoClipFrame, "NO-CLIP", function(activado)
+    if activado then notify("NO-CLIP: ACTIVADO"); noClipConnection = RunService.Stepped:Connect(function() if player.Character then for _, part in ipairs(player.Character:GetDescendants()) do if part:IsA("BasePart") and part.CanCollide then part.CanCollide = false end end end end)
+    else notify("NO-CLIP: DESACTIVADO"); if noClipConnection then noClipConnection:Disconnect(); noClipConnection = nil end end
 end)
 
 -- LÓGICA PARA EJECUTAR SCRIPTS
@@ -148,6 +148,6 @@ local function executeScript(button, urls)
 end
 
 -- BOTONES DEL MENÚ PRINCIPAL
-crearBotonAccion("No-Clip", function() NoClipFrame.Visible = true; notify("Abriendo menú No-Clip") end)
+crearBotonAccion("NO-CLIP", function() NoClipFrame.Visible = true; notify("Abriendo menú NO-CLIP") end)
 crearBotonAccion("COMBO SCRIPT", function(b) executeScript(b, {"https://raw.githubusercontent.com/tienkhanh1/spicy/main/Chilli.lua", "https://gist.githubusercontent.com/UCT-hub/5b11d10386f1b8ce08feb803861e0b79/raw/b2917b398d4b0cc80fb2aca73a3137ba494ebcf0/gistfile1.txt"}) end)
-crearBotonAccion("SERVIDORES'", function(b) executeScript(b, "https://api.luarmor.net/files/v3/loaders/f927290098f4333a9d217cbecbe6e988.lua") end)
+crearBotonAccion("SERVIDORES", function(b) executeScript(b, "https://api.luarmor.net/files/v3/loaders/f927290098f4333a9d217cbecbe6e988.lua") end)
