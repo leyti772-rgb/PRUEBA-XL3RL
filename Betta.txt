@@ -1,0 +1,140 @@
+--[[
+    Script: XL3RL - V3 (Solución Definitiva)
+    Descripción: Diseño compacto con logo de texto para evitar problemas de renderizado.
+]]
+
+-- CONFIGURACIÓN RÁPIDA --
+local Config = {
+    LogoTexto = "XL3RL", -- ✨ ¡Este es tu nuevo logo!
+    ColorPrincipal = Color3.fromRGB(0, 255, 255), -- Cian neón (puedes cambiarlo)
+    --ColorPrincipal = Color3.fromRGB(255, 0, 80), -- Rosa neón
+    --ColorPrincipal = Color3.fromRGB(0, 255, 0), -- Verde neón
+}
+-- FIN DE CONFIGURACIÓN --
+
+-- OBTENER SERVICIOS Y JUGADOR
+local Players = game:GetService("Players")
+local UserInputService = game:GetService("UserInputService")
+local RunService = game:GetService("RunService")
+local player = Players.LocalPlayer
+
+-- CREACIÓN DE LA GUI PRINCIPAL
+local ScreenGui = Instance.new("ScreenGui", player:WaitForChild("PlayerGui"))
+ScreenGui.Name = "XL3RL_GUI"
+ScreenGui.ResetOnSpawn = false
+
+-- CONTENEDOR PRINCIPAL (Más compacto)
+local MainContainer = Instance.new("Frame")
+MainContainer.Size = UDim2.new(0, 280, 0, 230) -- Altura reducida
+MainContainer.Position = UDim2.new(0.5, -140, 0.5, -115)
+MainContainer.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
+MainContainer.BorderSizePixel = 0
+MainContainer.Parent = ScreenGui
+
+local UICorner = Instance.new("UICorner")
+UICorner.CornerRadius = UDim.new(0, 10)
+UICorner.Parent = MainContainer
+
+-- BARRA SUPERIOR
+local Header = Instance.new("Frame")
+Header.Size = UDim2.new(1, 0, 0, 40)
+Header.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
+Header.BorderSizePixel = 0
+Header.Parent = MainContainer
+
+local HeaderCorner = Instance.new("UICorner")
+HeaderCorner.CornerRadius = UDim.new(0, 10)
+HeaderCorner.Parent = Header
+
+local HeaderStroke = Instance.new("UIStroke")
+HeaderStroke.Color = Config.ColorPrincipal
+HeaderStroke.Thickness = 1.5
+HeaderStroke.Parent = Header
+
+-- [[ NUEVO LOGO DE TEXTO ]] --
+local LogoTextLabel = Instance.new("TextLabel")
+LogoTextLabel.Size = UDim2.new(0.5, 0, 1, 0)
+LogoTextLabel.Position = UDim2.new(0, 15, 0, 0)
+LogoTextLabel.Text = Config.LogoTexto
+LogoTextLabel.Font = Enum.Font.Michroma -- Fuente estilo "gamer"
+LogoTextLabel.TextSize = 22
+LogoTextLabel.TextColor3 = Config.ColorPrincipal
+LogoTextLabel.BackgroundTransparency = 1
+LogoTextLabel.TextXAlignment = Enum.TextXAlignment.Left
+LogoTextLabel.Parent = Header
+
+-- Efecto de brillo para el logo
+local LogoStroke = Instance.new("UIStroke")
+LogoStroke.Color = Color3.new(1, 1, 1)
+LogoStroke.Transparency = 0.5
+LogoStroke.Thickness = 0.5
+LogoStroke.Parent = LogoTextLabel
+
+-- BOTONES DE LA BARRA SUPERIOR
+local CloseButton = Instance.new("TextButton")
+CloseButton.Size = UDim2.new(0, 30, 0, 30); CloseButton.Position = UDim2.new(1, -35, 0.5, -15); CloseButton.Text = "X"; CloseButton.Font = Enum.Font.SourceSansBold; CloseButton.TextSize = 18; CloseButton.TextColor3 = Color3.new(1, 1, 1); CloseButton.BackgroundColor3 = Color3.fromRGB(255, 70, 70); CloseButton.Parent = Header
+local CloseCorner = Instance.new("UICorner"); CloseCorner.Parent = CloseButton
+
+local MinButton = Instance.new("TextButton")
+MinButton.Size = UDim2.new(0, 30, 0, 30); MinButton.Position = UDim2.new(1, -70, 0.5, -15); MinButton.Text = "-"; MinButton.Font = Enum.Font.SourceSansBold; MinButton.TextSize = 24; MinButton.TextColor3 = Color3.new(1, 1, 1); MinButton.BackgroundColor3 = Color3.fromRGB(255, 180, 70); MinButton.Parent = Header
+local MinCorner = Instance.new("UICorner"); MinCorner.Parent = MinButton
+
+-- CONTENEDOR PARA LOS BOTONES
+local ButtonContainer = Instance.new("Frame")
+ButtonContainer.Size = UDim2.new(1, 0, 1, -50) -- Ajustado para el nuevo diseño
+ButtonContainer.Position = UDim2.new(0, 0, 0, 50)
+ButtonContainer.BackgroundTransparency = 1
+ButtonContainer.Parent = MainContainer
+
+local ButtonLayout = Instance.new("UIListLayout")
+ButtonLayout.Padding = UDim.new(0, 8)
+ButtonLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
+ButtonLayout.Parent = ButtonContainer
+
+-- FUNCIÓN PARA CREAR BOTONES
+local function crearBoton(texto, callback)
+    local Boton = Instance.new("TextButton")
+    Boton.Size = UDim2.new(1, -20, 0, 35); Boton.Text = texto; Boton.Font = Enum.Font.SourceSans; Boton.TextSize = 16; Boton.TextColor3 = Color3.new(1, 1, 1); Boton.BackgroundColor3 = Color3.fromRGB(50, 50, 50); Boton.Parent = ButtonContainer
+    local BotonCorner = Instance.new("UICorner"); BotonCorner.Parent = Boton
+    local BotonStroke = Instance.new("UIStroke"); BotonStroke.Color = Color3.fromRGB(70, 70, 70); BotonStroke.Parent = Boton
+    Boton.MouseButton1Click:Connect(callback)
+    return Boton
+end
+
+-- LÓGICA DE DRAG Y BOTONES
+local dragging = false; local dragStart; local startPos
+Header.InputBegan:Connect(function(input) if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then dragging = true; dragStart = input.Position; startPos = MainContainer.Position end end)
+Header.InputEnded:Connect(function(input) if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then dragging = false end end)
+UserInputService.InputChanged:Connect(function(input) if dragging and (input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch) then local delta = input.Position - dragStart; MainContainer.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y) end end)
+CloseButton.MouseButton1Click:Connect(function() ScreenGui:Destroy() end)
+MinButton.MouseButton1Click:Connect(function() MainContainer.Visible = not MainContainer.Visible end)
+
+-- ================== LÓGICA DE FUNCIONES ==================
+local noClipEnabled = false; local noClipConnection = nil
+local ObligatorioBoton = crearBoton("OBLIGATORIO: OFF", function(boton)
+    noClipEnabled = not noClipEnabled
+    ObligatorioBoton.Text = noClipEnabled and "OBLIGATORIO: ON" or "OBLIGATORIO: OFF"
+    ObligatorioBoton.BackgroundColor3 = noClipEnabled and Config.ColorPrincipal or Color3.fromRGB(50, 50, 50)
+    if noClipEnabled then noClipConnection = RunService.Stepped:Connect(function() local char = player.Character; if char then for _, part in ipairs(char:GetDescendants()) do if part:IsA("BasePart") and part.CanCollide then part.CanCollide = false end end end end) else if noClipConnection then noClipConnection:Disconnect(); noClipConnection = nil end end
+end)
+
+local function executeScript(button, url)
+    spawn(function()
+        local originalText = button.Text
+        button.Text = "Cargando..."; button.BackgroundColor3 = Color3.fromRGB(200, 150, 0)
+        local success, result = pcall(function() loadstring(game:HttpGet(url))() end)
+        if success then
+            button.Text = "¡Ejecutado!"; button.BackgroundColor3 = Config.ColorPrincipal
+            wait(2); button.Text = originalText; button.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+        else
+            button.Text = "¡Error!"; button.BackgroundColor3 = Color3.fromRGB(200, 0, 0)
+            warn("Error ejecutando script: " .. tostring(result))
+            wait(2); button.Text = originalText; button.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+        end
+    end)
+end
+
+local ChilliButton = crearBoton("SCRIPT SALTO INIFITO", function() executeScript(ChilliButton, "https://raw.githubusercontent.com/tienkhanh1/spicy/main/Chilli.lua") end)
+local ServidoresButton = crearBoton("SERVIDORES", function() executeScript(ServidoresButton, "https://api.luarmor.net/files/v3/loaders/f927290098f4333a9d217cbecbe6e988.lua") end)
+local AutoBaseButton = crearBoton("AUTO BASE", function() executeScript(AutoBaseButton, "https://gist.githubusercontent.com/UCT-hub/5b11d10386f1b8ce08feb803861e0b79/raw/b2917b398d4b0cc80fb2aca73a3137ba494ebcf0/gistfile1.txt") end)
+
