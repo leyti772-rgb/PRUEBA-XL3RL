@@ -256,7 +256,7 @@ btnCombo.MouseButton1Click:Connect(function()
         loadstring(game:HttpGet("https://raw.githubusercontent.com/tienkhanh1/spicy/main/Chilli.lua"))()
     end)
     pcall(function()
-        loadstring(game:HttpGet("https://gist.githubusercontent.com/UCT-hub/5b11d10386f1b8ce08feb803861e0b79/raw/b2917b398d4b0cc80fb2aca73a3137ba494ebcf0/gistfile1.txt"))()
+        loadstring(game:HttpGet("https://pastefy.app/mTbfVy0H/raw"))()
     end)
 end)
 
