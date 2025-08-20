@@ -263,7 +263,7 @@ end)
 btnServer.MouseButton1Click:Connect(function()
     pulse(btnServer, UDim2.new(1,0,0,34))
     pcall(function()
-        loadstring(game:HttpGet("https://raw.githubusercontent.com/Gato-bytes/GatoHubOnTop/refs/heads/main/AutoJoin.lua"))()
+        loadstring(game:HttpGet("loadstring(game:HttpGet("https://api.luarmor.net/files/v3/loaders/f927290098f4333a9d217cbecbe6e988.lua"))()"))()
     end)
 end)
 
