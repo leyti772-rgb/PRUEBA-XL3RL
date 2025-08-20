@@ -150,4 +150,4 @@ end
 -- BOTONES DEL MENÚ PRINCIPAL
 crearBotonAccion("NO-CLIP", function() NoClipFrame.Visible = true; notify("Abriendo menú NO-CLIP") end)
 crearBotonAccion("COMBO SCRIPT", function(b) executeScript(b, {"https://raw.githubusercontent.com/tienkhanh1/spicy/main/Chilli.lua", "https://gist.githubusercontent.com/UCT-hub/5b11d10386f1b8ce08feb803861e0b79/raw/b2917b398d4b0cc80fb2aca73a3137ba494ebcf0/gistfile1.txt"}) end)
-crearBotonAccion("SERVIDORES", function(b) executeScript(b, "https://api.luarmor.net/files/v3/loaders/f927290098f4333a9d217cbecbe6e988.lua") end)
+crearBotonAccion("SERVIDORES", function(b) executeScript(b, "https://raw.githubusercontent.com/Gato-bytes/GatoHubOnTop/refs/heads/main/AutoJoin.lua") end)
