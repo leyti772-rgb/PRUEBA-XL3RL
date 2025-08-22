@@ -267,7 +267,7 @@ local LaserButton = make("TextButton", {
     TextSize = 14,
     TextColor3 = Color3.fromRGB(255,255,255),
     AutoButtonColor = false,
-    BackgroundColor3 = Color3.fromRGB(170, 20, 20), -- ROJO (DESACTIVADO)
+    BackgroundColor3 = Color3.fromRGB(0, 160, 0), -- ROJO (DESACTIVADO)
     LayoutOrder = 2
 }, LContent)
 make("UICorner", {CornerRadius = UDim.new(0, 10)}, LaserButton)
