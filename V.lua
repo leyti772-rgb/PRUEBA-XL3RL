@@ -284,10 +284,10 @@ local function setLaser(on)
     autoLaser = on
     if autoLaser then
         LaserButton.Text = "DESACTIVAR AUTO-LASER"
-        TweenService:Create(LaserButton, TweenInfo.new(0.2), {BackgroundColor3 = Color3.fromRGB(0,160,0)}):Play() -- VERDE (ACTIVO)
+        TweenService:Create(LaserButton, TweenInfo.new(0.2), {BackgroundColor3 = Color3.fromRGB(170,20,20)}):Play() -- VERDE (ACTIVO)
     else
         LaserButton.Text = "ACTIVAR AUTO-LASER"
-        TweenService:Create(LaserButton, TweenInfo.new(0.2), {BackgroundColor3 = Color3.fromRGB(170,20,20)}):Play() -- ROJO (OFF)
+        TweenService:Create(LaserButton, TweenInfo.new(0.2), {BackgroundColor3 = Color3.fromRGB(0,160,0)}):Play() -- ROJO (OFF)
     end
 end
 
