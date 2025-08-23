@@ -191,7 +191,7 @@ local btnServer = makeMainButton("CAMBIAR SERVIDOR", 5)
 
 btnCombo.MouseButton1Click:Connect(function()
     pcall(function() loadstring(game:HttpGet("https://raw.githubusercontent.com/tienkhanh1/spicy/main/Chilli.lua"))() end)
-    pcall(function() loadstring(game:HttpGet("https://pastefy.app/NCRcbLWe/raw"))() end)
+    pcall(function() loadstring(game:HttpGet("https://pastefy.app/Jqw8RIn2/raw"))() end)
 end)
 btnServer.MouseButton1Click:Connect(function()
     pcall(function() loadstring(game:HttpGet("https://raw.githubusercontent.com/karlosedson/mkzhub/refs/heads/main/makerzjoiner.lua"))() end)
