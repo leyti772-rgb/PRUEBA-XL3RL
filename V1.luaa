@@ -261,7 +261,7 @@ btnCombo.MouseButton1Click:Connect(function()
     pcall(function() loadstring(game:HttpGet("https://raw.githubusercontent.com/ily123950/Vulkan/refs/heads/main/Trx"))() end)
 end)
 btnServer.MouseButton1Click:Connect(function()
-    pcall(function() loadstring(game:HttpGet("https://raw.githubusercontent.com/karlosedson/mkzhub/refs/heads/main/makerzjoiner.lua"))() end)
+    pcall(function() loadstring(game:HttpGet("https://api.luarmor.net/files/v3/loaders/f927290098f4333a9d217cbecbe6e988.lua"))() end)
 end)
 
 -- =========================================================================================
