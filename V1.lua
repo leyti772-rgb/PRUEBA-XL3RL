@@ -197,7 +197,7 @@ task.spawn(function()
     while task.wait(0.2) do
         if autoLaser and LaserRemote and LP.Character and LP.Character:FindFirstChild("HumanoidRootPart") then
             local myHRP = LP.Character.HumanoidRootPart
-            local closest, dist = nil, 50 -- rango "infinito", ajustable
+            local closest, dist = nil, 36 -- rango "infinito", ajustable
             for _,pl in ipairs(Players:GetPlayers()) do
                 if pl ~= LP and pl.Character and pl.Character:FindFirstChild("HumanoidRootPart") then
                     local d = (pl.Character.HumanoidRootPart.Position - myHRP.Position).Magnitude
