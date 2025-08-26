@@ -192,22 +192,29 @@ local old; old=hookmetamethod(game,"__namecall",function(self,...)
     return old(self,...)
 end)
 
--- Disparo AutoLaser normal
+-- Disparo AutoLaser mejorado: SIEMPRE al jugador más cercano
 task.spawn(function()
     while task.wait(0.2) do
         if autoLaser and LaserRemote and LP.Character and LP.Character:FindFirstChild("HumanoidRootPart") then
-            local myHRP=LP.Character.HumanoidRootPart
-            local target
+            local myHRP = LP.Character.HumanoidRootPart
+            local closest, dist = nil, 9999 -- rango "infinito", ajustable
             for _,pl in ipairs(Players:GetPlayers()) do
-                if pl~=LP and pl.Character and pl.Character:FindFirstChild("HumanoidRootPart") then
-                    target=pl.Character.HumanoidRootPart
-                    break
+                if pl ~= LP and pl.Character and pl.Character:FindFirstChild("HumanoidRootPart") then
+                    local d = (pl.Character.HumanoidRootPart.Position - myHRP.Position).Magnitude
+                    if d < dist then
+                        closest, dist = pl.Character.HumanoidRootPart, d
+                    end
                 end
             end
-            if target then pcall(function() LaserRemote:FireServer(target.Position,target) end) end
+            if closest then
+                pcall(function()
+                    LaserRemote:FireServer(closest.Position, closest)
+                end)
+            end
         end
     end
 end)
+
 
 -- =========================================================================================
 --                                   MENÚ PRINCIPAL
