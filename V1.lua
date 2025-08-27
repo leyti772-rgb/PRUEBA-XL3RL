@@ -101,7 +101,7 @@ local ncButton = make("TextButton",{Size=UDim2.new(1,-20,0,40), Position=UDim2.n
 make("UICorner",{CornerRadius=UDim.new(0,6)},ncButton)
 
 -- AutoLaser
-local LaserPanel = make("Frame",{Size=UDim2.new(0,160,0,100), Visible=false, BackgroundColor3=Config.BackgroundColor},Screen)
+local LaserPanel = make("Frame",{Size=UDim2.new(0,160,0,100),Position = UDim2.new(1, -180, 0, 20), Visible=false, BackgroundColor3=Config.BackgroundColor},Screen)
 make("UICorner",{CornerRadius=UDim.new(0,8)},LaserPanel)
 make("UIStroke",{Color=Config.MainColor},LaserPanel)
 local laserTitle = make("TextLabel",{Size=UDim2.new(1,0,0,30), Text="AUTO-LASER", Font=Enum.Font.Code, TextSize=16, TextColor3=Config.MainColor, BackgroundTransparency=1},LaserPanel)
