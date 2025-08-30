@@ -26,6 +26,7 @@ Btn.TextSize = 16
 -- Función para buscar un servidor disponible
 local function findServer()
     local PlaceId = game.PlaceId
+
     local success, response = pcall(function()
         return req({
             Url = "https://games.roblox.com/v1/games/"..PlaceId.."/servers/Public?sortOrder=Asc&limit=100"
@@ -45,29 +46,10 @@ local function findServer()
     return nil
 end
 
--- Acción del botón (cada click independiente, sin bloqueos)
+-- Acción del botón (una sola función)
 Btn.MouseButton1Click:Connect(function()
-    -- Cada click ejecuta su propia tarea
-    task.spawn(function()
-        Btn.Text = "Buscando..."
-        local serverId = findServer()
-
-        if serverId then
-            Btn.Text = "Teleportando..."
-            local success, err = pcall(function()
-                TeleportService:TeleportToPlaceInstance(game.PlaceId, serverId, LP)
-            end)
-
-            if not success then
-                Btn.Text = "Error!"
-                warn("Error al teletransportar:", err)
-                task.wait(2)
-            end
-        else
-            Btn.Text = "No encontrado"
-            task.wait(2)
-        end
-
-        Btn.Text = "Cambiar Servidor" -- vuelve al estado inicial
-    end)
+    local serverId = findServer()
+    if serverId then
+        TeleportService:TeleportToPlaceInstance(game.PlaceId, serverId, LP)
+    end
 end)
