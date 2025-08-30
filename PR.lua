@@ -1,8 +1,29 @@
+-- Crear UI básica (ScreenGui)
+local screenGui = Instance.new("ScreenGui")
+screenGui.Name = "TeleportMenu"
+screenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+
+-- Crear frame del menú
+local frame = Instance.new("Frame")
+frame.Size = UDim2.new(0, 200, 0, 100)
+frame.Position = UDim2.new(0.5, -100, 0.5, -50)
+frame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+frame.Parent = screenGui
+
+-- Botón de teleport
+local TeleportButton = Instance.new("TextButton")
+TeleportButton.Size = UDim2.new(0, 180, 0, 50)
+TeleportButton.Position = UDim2.new(0, 10, 0, 25)
+TeleportButton.Text = "Teleportar"
+TeleportButton.BackgroundColor3 = Color3.fromRGB(70, 130, 180)
+TeleportButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+TeleportButton.Parent = frame
+
 -- Variables de control
 local buscando = false
 local destino = Vector3.new(0, 10, 0) -- reemplaza con tu destino real
 
--- Función para teletransportar al jugador
+-- Función de teleport
 local function TeleportPlayer(destination)
     local player = game.Players.LocalPlayer
     if player and player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
@@ -18,24 +39,22 @@ local function intentarTeleport(destination)
 
     task.spawn(function()
         while buscando do
-            local success, err = pcall(function()
+            local success = pcall(function()
                 TeleportPlayer(destination)
             end)
 
             if success then
-                print("Teletransportado correctamente!")
-                TeleportButton.Text = "Teleportar"
+                TeleportButton.Text = "Teleportado!"
                 buscando = false
             else
-                print("Fallo al teletransportar, reintentando...")
                 TeleportButton.Text = "Reintentando..."
-                task.wait(2) -- espera 2 segundos antes de volver a intentar
+                task.wait(2)
             end
         end
     end)
 end
 
--- Conectar el botón
+-- Conectar botón
 TeleportButton.MouseButton1Click:Connect(function()
     intentarTeleport(destino)
 end)
