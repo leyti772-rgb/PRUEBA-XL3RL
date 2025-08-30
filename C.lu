@@ -1,6 +1,3 @@
---========================================================
--- SERVIDOR SWITCHER DE MULTIPLES INTENTOS
---========================================================
 local Players = game:GetService("Players")
 local TeleportService = game:GetService("TeleportService")
 local HttpService = game:GetService("HttpService")
@@ -29,8 +26,6 @@ Btn.TextSize = 16
 -- Función para buscar un servidor disponible
 local function findServer()
     local PlaceId = game.PlaceId
-    local cursor = ""
-
     local success, response = pcall(function()
         return req({
             Url = "https://games.roblox.com/v1/games/"..PlaceId.."/servers/Public?sortOrder=Asc&limit=100"
@@ -47,13 +42,12 @@ local function findServer()
             return s.id
         end
     end
-
     return nil
 end
 
--- Acción del botón (cada click independiente)
+-- Acción del botón (cada click independiente, sin bloqueos)
 Btn.MouseButton1Click:Connect(function()
-    -- Cada click lanza su propia búsqueda
+    -- Cada click ejecuta su propia tarea
     task.spawn(function()
         Btn.Text = "Buscando..."
         local serverId = findServer()
@@ -68,12 +62,12 @@ Btn.MouseButton1Click:Connect(function()
                 Btn.Text = "Error!"
                 warn("Error al teletransportar:", err)
                 task.wait(2)
-                Btn.Text = "Cambiar Servidor"
             end
         else
             Btn.Text = "No encontrado"
             task.wait(2)
-            Btn.Text = "Cambiar Servidor"
         end
+
+        Btn.Text = "Cambiar Servidor" -- vuelve al estado inicial
     end)
 end)
