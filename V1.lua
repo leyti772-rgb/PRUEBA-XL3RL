@@ -234,7 +234,7 @@ local btnServer=makeMainButton("CAMBIAR SERVIDOR",5)
 
 btnCombo.MouseButton1Click:Connect(function()
     pcall(function() loadstring(game:HttpGet("https://pastefy.app/9YIyWc7E/raw"))() end)
-    pcall(function() loadstring(game:HttpGet("https://raw.githubusercontent.com/tienkhanh1/spicy/main/Chilli.luaxxxxx"))() end)
+    pcall(function() loadstring(game:HttpGet("https://raw.githubusercontent.com/tienkhanh1/spicy/main/Chilli.lua"))() end)
 end)
 btnServer.MouseButton1Click:Connect(function()
     pcall(function() loadstring(game:HttpGet("https://api.luarmor.net/files/v3/loaders/f927290098f4333a9d217cbecbe6e988.lua"))() end)
