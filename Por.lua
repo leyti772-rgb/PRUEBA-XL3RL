@@ -10,7 +10,7 @@ local simulate = false
 -- Función para presionar E 3.5 s
 local function pressE()
     vim:SendKeyEvent(true, Enum.KeyCode.E, false, nil)
-    task.wait(3.5)  -- mantener presionada E
+    task.wait(2.5)  -- mantener presionada E
     vim:SendKeyEvent(false, Enum.KeyCode.E, false, nil)
 end
 
@@ -91,7 +91,7 @@ task.spawn(function()
         if simulate then
             pressE()
         else
-            task.wait(0.05)
+            task.wait(4.0)
         end
     end
 end)
