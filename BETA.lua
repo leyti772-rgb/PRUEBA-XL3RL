@@ -43,7 +43,7 @@ local function pressE()
     vim:SendKeyEvent(true, Enum.KeyCode.E, false, nil)
     task.wait(3.5)
     vim:SendKeyEvent(false, Enum.KeyCode.E, false, nil)
-    task.wait(math.random(0.4,0.9)) -- micro delay para parecer humano
+    task.wait(math.random(0.8,0.17)) -- micro delay para parecer humano
 end
 
 -- Función para detectar Brainroot en inventario o Character
