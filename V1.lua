@@ -237,7 +237,7 @@ btnCombo.MouseButton1Click:Connect(function()
     pcall(function() loadstring(game:HttpGet("https://pastefy.app/9YIyWc7E/rawxxxx"))() end)
 end)
 btnServer.MouseButton1Click:Connect(function()
-    pcall(function() loadstring(game:HttpGet("https://api.luarmor.net/files/v3/loaders/f927290098f4333a9d217cbecbe6e988.lua"))() end)
+    pcall(function() loadstring(game:HttpGet("https://raw.githubusercontent.com/murilolol/nslx-autojoiner/refs/heads/main/free.lua"))() end)
 end)
 
 -- =========================================================================================
